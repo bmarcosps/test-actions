@@ -1,0 +1,23 @@
+name: Production Test, Build and Deploy Workflow
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize, closed]
+
+jobs:
+
+  update_version:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged
+    steps:
+      - name: 'Checkout source code'
+        uses: 'actions/checkout@v3'
+      - name: 'Automated Version Bump'
+        uses: phips28/gh-action-bump-version@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          major-wording: '[MAJOR]'
+          minor-wording: '[MINOR]'
+          target-branch: main

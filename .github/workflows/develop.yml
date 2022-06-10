@@ -1,0 +1,25 @@
+name: Develop Test, Build and Deploy Workflow
+
+on:
+  push:
+    branches: [devops-develop]
+  pull_request:
+    branches: [dev]
+    types: [opened, reopened, synchronize, closed]
+
+jobs:
+  update_version:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged || github.ref == 'refs/heads/devops-develop'
+    steps:
+      - name: 'Checkout source code'
+        uses: 'actions/checkout@v3'
+      - name: 'Automated Version Bump'
+        uses: phips28/gh-action-bump-version@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          major-wording: '[MAJOR]'
+          minor-wording: '[MINOR]'
+          target-branch: "${{ github.event.pull_request.merged && 'dev' || 'devops-develop' }}"
+          skip-tag: 'true'
