@@ -20,4 +20,4 @@ jobs:
         with:
           major-wording: '[MAJOR]'
           minor-wording: '[MINOR]'
-          target-branch: main
+          target-branch: 'dev'
