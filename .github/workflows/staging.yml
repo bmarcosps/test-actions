@@ -22,5 +22,5 @@ jobs:
         with:
           major-wording: '[MAJOR]'
           minor-wording: '[MINOR]'
-          target-branch: staging
+          target-branch: 'dev'
           skip-tag: 'true'
