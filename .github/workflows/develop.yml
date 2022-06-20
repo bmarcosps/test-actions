@@ -8,9 +8,16 @@ on:
     types: [opened, reopened, synchronize, closed]
 
 jobs:
+  first_step:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log something to the console
+        run: echo 'First something'
+
   update_version:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged || github.ref == 'refs/heads/devops-develop'
+    if: github.event.pull_request.merged
+    needs: [first_step]
     steps:
       - name: 'Checkout source code'
         uses: 'actions/checkout@v3'
@@ -21,5 +28,9 @@ jobs:
         with:
           major-wording: '[MAJOR]'
           minor-wording: '[MINOR]'
-          target-branch: 'dev'
-          skip-tag: 'true'
+
+  last_step:
+    needs: [first_step, update_version]
+    steps:
+      - name: Log something to the console
+        run: echo 'Last something'
