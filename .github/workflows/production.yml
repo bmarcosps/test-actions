@@ -27,6 +27,7 @@ jobs:
           minor-wording: '[MINOR]'
 
   last_step:
+    runs-on: ubuntu-latest
     needs: [first_step, update_version]
     steps:
       - name: Log something to the console
