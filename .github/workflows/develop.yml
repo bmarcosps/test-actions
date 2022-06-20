@@ -31,7 +31,7 @@ jobs:
 
   last_step:
     runs-on: ubuntu-latest
-    needs: [first_step, update_version]
+    needs: [first_step]
     steps:
       - name: Log something to the console
         run: echo 'Last something'
