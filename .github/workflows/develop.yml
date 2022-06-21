@@ -66,7 +66,7 @@ jobs:
         with:
           branch: dev
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          username: ${{ github.actor }}
+          user: ${{ github.actor }}
 
 
   last_step:
