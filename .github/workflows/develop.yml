@@ -60,10 +60,9 @@ jobs:
     needs: [first_step]
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
-          cache: 'npm'
+          node-version: '16.15.0'
       - uses: fregante/setup-git-user@v1
       - name: Apply version bump (major)
         if: contains(github.event.pull_request.labels.*.name, 'major')
