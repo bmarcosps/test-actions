@@ -25,7 +25,9 @@ jobs:
     needs: [first_step]
     steps:
       - name: 'Checkout source code'
-        uses: 'actions/checkout@v3'
+        uses: 'actions/checkout@v2'
+        with:
+          ref: 'dev'
       - name: 'Automated Version Bump'
         uses: phips28/gh-action-bump-version@master
         env:
