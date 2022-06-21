@@ -9,6 +9,7 @@ on:
 
 jobs:
   first_step:
+    if: github.ref != 'refs/heads/devops-develop'
     runs-on: ubuntu-latest
     steps:
       - name: Log something to the console
@@ -16,7 +17,7 @@ jobs:
 
   update_version:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged
+    if: github.event.pull_request.merged || github.ref == 'refs/heads/devops-develop'
     needs: [first_step]
     steps:
       - name: 'Checkout source code'
@@ -30,8 +31,9 @@ jobs:
           minor-wording: '[MINOR]'
 
   last_step:
+    if: github.event.pull_request.merged || github.ref == 'refs/heads/devops-develop'
     runs-on: ubuntu-latest
-    needs: [first_step]
+    needs: [first_step, update_version]
     steps:
       - name: Log something to the console
         run: echo 'Last something'
