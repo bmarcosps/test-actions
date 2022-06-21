@@ -12,8 +12,12 @@ jobs:
     if: github.ref != 'refs/heads/devops-develop'
     runs-on: ubuntu-latest
     steps:
+      - name: 'Checkout source code'
+        uses: 'actions/checkout@v3'
       - name: Log something to the console
         run: echo 'First something'
+      - name: 'cat package.json'
+        run: cat ./package.json
 
   update_version:
     runs-on: ubuntu-latest
@@ -29,11 +33,18 @@ jobs:
         with:
           major-wording: '[MAJOR]'
           minor-wording: '[MINOR]'
+          target-branch: dev
 
   last_step:
     if: github.event.pull_request.merged || github.ref == 'refs/heads/devops-develop'
     runs-on: ubuntu-latest
     needs: [first_step, update_version]
     steps:
+      - name: 'Checkout source code'
+        uses: 'actions/checkout@v3'
+        with:
+          ref: 'dev'
       - name: Log something to the console
         run: echo 'Last something'
+      - name: 'cat package.json'
+        run: cat ./package.json
