@@ -37,6 +37,7 @@ jobs:
           minor-wording: '[MINOR]'
           target-branch: dev
 
+
   last_step:
     if: github.event.pull_request.merged || github.ref == 'refs/heads/devops-develop'
     runs-on: ubuntu-latest
