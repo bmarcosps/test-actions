@@ -19,6 +19,24 @@ jobs:
       - name: 'cat package.json'
         run: cat ./package.json
 
+  # update_version:
+  #   runs-on: ubuntu-latest
+  #   if: github.event.pull_request.merged || github.ref == 'refs/heads/devops-develop'
+  #   needs: [first_step]
+  #   steps:
+  #     - name: 'Checkout source code'
+  #       uses: 'actions/checkout@v2'
+  #       with:
+  #         ref: 'dev'
+  #     - name: 'Automated Version Bump'
+  #       uses: phips28/gh-action-bump-version@master
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       with:
+  #         major-wording: '[MAJOR]'
+  #         minor-wording: '[MINOR]'
+  #         target-branch: dev
+
   update_version:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged || github.ref == 'refs/heads/devops-develop'
@@ -26,18 +44,16 @@ jobs:
     steps:
       - name: 'Checkout source code'
         uses: 'actions/checkout@v2'
-        with:
-          ref: 'dev'
       - name: 'Automated Version Bump'
-        uses: phips28/gh-action-bump-version@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: copapow/version-bump-package@v1
         with:
-          major-wording: '[MAJOR]'
-          minor-wording: '[MINOR]'
-          target-branch: dev
-
-
+          default_branch: dev
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: EndBug/add-and-commit@v7  
+        with:
+          branch: dev
+          message: 'Bump package version'
+          
   last_step:
     if: github.event.pull_request.merged || github.ref == 'refs/heads/devops-develop'
     runs-on: ubuntu-latest
