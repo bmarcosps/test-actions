@@ -59,14 +59,26 @@ jobs:
     if: github.event.pull_request.merged || github.ref == 'refs/heads/devops-develop'
     needs: [first_step]
     steps:
-      - name: 'Checkout source code'
-        uses: 'actions/checkout@v2'
-      - name: 'Automated Version Bump'
-        uses:  tool3/bump@master
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
-          branch: dev
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          user: ${{ github.actor }}
+          node-version: '16.x'
+          cache: 'npm'
+      - uses: fregante/setup-git-user@v1
+      - name: Apply version bump (major)
+        if: contains(github.event.pull_request.labels.*.name, 'major')
+        run: npm version major
+      - name: Apply version bump (minor)
+        if: contains(github.event.pull_request.labels.*.name, 'minor')
+        run: npm version minor
+      - name: Apply version bump (patch)
+        if: contains(github.event.pull_request.labels.*.name, 'patch')
+        run: npm version patch
+      - name: Git push version bump
+        run: git push origin dev --follow-tags --force
+      - id: set-version
+        name: Output version change
+        run: npm pkg get version
 
 
   last_step:
