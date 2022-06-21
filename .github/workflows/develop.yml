@@ -37,6 +37,23 @@ jobs:
   #         minor-wording: '[MINOR]'
   #         target-branch: dev
 
+  # update_version:
+  #   runs-on: ubuntu-latest
+  #   if: github.event.pull_request.merged || github.ref == 'refs/heads/devops-develop'
+  #   needs: [first_step]
+  #   steps:
+  #     - name: 'Checkout source code'
+  #       uses: 'actions/checkout@v2'
+  #     - name: 'Automated Version Bump'
+  #       uses: copapow/version-bump-package@v1
+  #       with:
+  #         default_branch: dev
+  #         github_token: ${{ secrets.GITHUB_TOKEN }}
+  #     - uses: EndBug/add-and-commit@v7  
+  #       with:
+  #         branch: dev
+  #         message: 'Bump package version'
+
   update_version:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged || github.ref == 'refs/heads/devops-develop'
@@ -45,15 +62,12 @@ jobs:
       - name: 'Checkout source code'
         uses: 'actions/checkout@v2'
       - name: 'Automated Version Bump'
-        uses: copapow/version-bump-package@v1
-        with:
-          default_branch: dev
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: EndBug/add-and-commit@v7  
+        uses:  tool3/bump@master
         with:
           branch: dev
-          message: 'Bump package version'
-          
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+
   last_step:
     if: github.event.pull_request.merged || github.ref == 'refs/heads/devops-develop'
     runs-on: ubuntu-latest
