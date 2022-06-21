@@ -8,8 +8,6 @@ on:
     types: [opened, reopened, synchronize, closed]
 
 jobs:
-
-jobs:
   first_step:
     runs-on: ubuntu-latest
     steps:
