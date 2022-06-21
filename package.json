@@ -1,7 +1,7 @@
 {
   "name": "breakout-app",
   "productName": "Breakout App",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Breakout local recording application",
   "main": ".webpack/main",
   "author": {
