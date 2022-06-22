@@ -44,6 +44,8 @@ jobs:
     steps:
       - name: 'Checkout source code'
         uses: 'actions/checkout@v2'
+        with:
+          ref: 'dev'
       - name: 'Automated Version Bump'
         uses: copapow/version-bump-package@v1
         with:
