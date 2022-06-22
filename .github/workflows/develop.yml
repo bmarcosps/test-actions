@@ -37,47 +37,47 @@ jobs:
   #         minor-wording: '[MINOR]'
   #         target-branch: dev
 
-  # update_version:
-  #   runs-on: ubuntu-latest
-  #   if: github.event.pull_request.merged || github.ref == 'refs/heads/devops-develop'
-  #   needs: [first_step]
-  #   steps:
-  #     - name: 'Checkout source code'
-  #       uses: 'actions/checkout@v2'
-  #     - name: 'Automated Version Bump'
-  #       uses: copapow/version-bump-package@v1
-  #       with:
-  #         default_branch: dev
-  #         github_token: ${{ secrets.GITHUB_TOKEN }}
-  #     - uses: EndBug/add-and-commit@v7  
-  #       with:
-  #         branch: dev
-  #         message: 'Bump package version'
-
   update_version:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged || github.ref == 'refs/heads/devops-develop'
     needs: [first_step]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3
+      - name: 'Checkout source code'
+        uses: 'actions/checkout@v2'
+      - name: 'Automated Version Bump'
+        uses: copapow/version-bump-package@v1
         with:
-          node-version: '16.15.0'
-      - uses: fregante/setup-git-user@v1
-      - name: Apply version bump (major)
-        if: contains(github.event.pull_request.labels.*.name, 'major')
-        run: npm version major
-      - name: Apply version bump (minor)
-        if: contains(github.event.pull_request.labels.*.name, 'minor')
-        run: npm version minor
-      - name: Apply version bump (patch)
-        if: contains(github.event.pull_request.labels.*.name, 'patch')
-        run: npm version patch
-      - name: Git push version bump
-        run: git push origin dev --follow-tags --force
-      - id: set-version
-        name: Output version change
-        run: npm pkg get version
+          default_branch: dev
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: EndBug/add-and-commit@v7  
+        with:
+          branch: dev
+          message: 'Bump package version'
+
+  # update_version:
+  #   runs-on: ubuntu-latest
+  #   if: github.event.pull_request.merged || github.ref == 'refs/heads/devops-develop'
+  #   needs: [first_step]
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: '16.15.0'
+  #     - uses: fregante/setup-git-user@v1
+  #     - name: Apply version bump (major)
+  #       if: contains(github.event.pull_request.labels.*.name, 'major')
+  #       run: npm version major
+  #     - name: Apply version bump (minor)
+  #       if: contains(github.event.pull_request.labels.*.name, 'minor')
+  #       run: npm version minor
+  #     - name: Apply version bump (patch)
+  #       if: contains(github.event.pull_request.labels.*.name, 'patch')
+  #       run: npm version patch
+  #     - name: Git push version bump
+  #       run: git push origin dev --follow-tags --force
+  #     - id: set-version
+  #       name: Output version change
+  #       run: npm pkg get version
 
 
   last_step:
