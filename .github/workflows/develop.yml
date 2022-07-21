@@ -12,9 +12,8 @@ jobs:
     if: join(github.event.pull_request.labels) != ''
     runs-on: ubuntu-latest
     steps:
-    #echo the LABELS
       - name: 'Log something to the console'
-        run: echo 'LABELS: ${{ github.event.pull_request.labels }}'
+        run: echo '${{ github.event.pull_request.labels }}'
   first_step:
     if: github.ref != 'refs/heads/devops-develop'
     runs-on: ubuntu-latest
