@@ -5,6 +5,12 @@ on:
     branches: [main]
     types: [opened, reopened, synchronize, closed]
 jobs:
+  label_step:
+    if: join(github.event.pull_request.labels) != ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Log something to the console'
+        run: echo 'LABELS: ${{ github.event.pull_request.labels }}'
   first_step:
     runs-on: ubuntu-latest
     steps:
@@ -13,7 +19,7 @@ jobs:
 
   update_version:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/devops-develop'
+    if: github.ref == 'refs/heads/devops-develop' && join(github.event.pull_request.labels) != ''
     needs: [first_step]
     steps:
       - name: 'Checkout source code'
