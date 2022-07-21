@@ -14,6 +14,13 @@ jobs:
     steps:
       - name: 'Log something to the console'
         run: echo ${{ github.event.pull_request.labels }}
+    
+  label_step_2:
+    if: contains(github.event.pull_request.labels.*.name, 'minor') || contains(github.event.pull_request.labels.*.name, 'patch') || contains(github.event.pull_request.labels.*.name, 'major')
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Log something to the console'
+        run: echo ${{ github.event.pull_request.labels }}
   first_step:
     if: github.ref != 'refs/heads/devops-develop'
     runs-on: ubuntu-latest
@@ -45,7 +52,7 @@ jobs:
 
   update_version:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged
+    if: github.event.pull_request.merged && (contains(github.event.pull_request.labels.*.name, 'minor') || contains(github.event.pull_request.labels.*.name, 'patch') || contains(github.event.pull_request.labels.*.name, 'major'))
     needs: [first_step]
     steps:
       - name: 'Checkout source code'
