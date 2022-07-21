@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Log something to the console'
-        run: echo 'LABELS: ${{ github.event.pull_request.labels }}'
+        run: echo '${{ github.event.pull_request.labels }}'
   first_step:
     runs-on: ubuntu-latest
     steps:
